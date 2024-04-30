@@ -1,0 +1,46 @@
+%% main for generate MUSIC spectrum and dataset
+% This is the pre-processing script.
+% We need to execute this script first to generate the data for inputting into the SpecTrans (PyTorch model). 
+% The process of generating the MUSIC spectrum is carried out within it.
+% We have tested this code on MATLAB running on MacOS. 
+% You can change '/' to '\' for Windows.
+clear
+clc
+%% set the path, can also change it by the main path 
+script_path = mfilename('fullpath');
+folder_path = fileparts(script_path);
+%% Generate the MUSIC spectrum and save
+% load the ground truth
+gt_path = [folder_path '/dataset_mat/GroundTruth/gt.mat'];
+Spec_save_path = [folder_path '/SpecPath'];
+load(gt_path)
+% Generation and save
+% If all the data are processed, this part takes several tens of minutes. 
+% However, if only a few data points need to be processed for testing, 
+% 'size(gt,1)' can be replaced with a smaller number.
+for i = 1:size(gt,1)+1
+    fprintf('Processing NO.%d data \n',i)
+    if i < 47  % single subject
+        MUSIC_spectrum = gen_MUSIC_spectum(gt(i,:));
+        eval(['spe' num2str(i) '=MUSIC_spectrum;'])
+        save([Spec_save_path '/spe' num2str(i) '.mat'],['spe' num2str(i)])
+    else       % three subjecs
+        MUSIC_spectrum = gen_MUSIC_spectum(gt([25,26,34],:))/400;
+        eval(['spe' num2str(i) '=MUSIC_spectrum;'])
+        save([Spec_save_path '/spe' num2str(i) '.mat'],['spe' num2str(i)])
+    end
+end
+fprintf('Finish MUSIC spectrum generation and save===========>\n')
+%% Generate the data for python and save
+CSI_path = [folder_path '/dataset_mat'];
+dataset_save_path = [folder_path '/dataset_for_model'];
+[input, output] = gen_PYdata(CSI_path, Spec_save_path,'train');
+fprintf('Saving the training dataset===========>\n')
+save([dataset_save_path '/trainData.mat'],'input','output', '-v7.3')
+clearvars input out
+
+[input, output] = gen_PYdata(CSI_path, Spec_save_path,'test');
+fprintf('Saving the test dataset===========>\n')
+save([dataset_save_path '/testData.mat'],'input','output', '-v7.3')
+
+fprintf('Finish===========>\n')
