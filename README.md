@@ -32,7 +32,6 @@ To begin using UWB-Fi and implement the system, follow these steps:
 4. **Install the necessary packages** such as pytorch 2.0.1 (find more details in requirements.txt in the `UWB_Fi_python` folder).
 
 5. **Download Datasets**: The specific datasets used with UWB-Fi can be obtained from [Dataset Download](https://entuedu-my.sharepoint.com/:u:/g/personal/hongbo001_e_ntu_edu_sg/EQMBtZTgYf1CqLQ9AhMu0k8B3gljzw3jGuf1VvcjiN43UQ?e=MWtEku). Extract the contents of the `dataset_mat.zip` file and  make sure the extracted `dataset_mat` folder is placed into the `UWB_Fi_matlab` folder.
-
 Note that the data dimension of locx.mat is (20, 57, 4, 210), where 20 represents the 20 channels, 57 represents the number of subcarriers, 4 is the result of 2 (the number of antennas) multiplied by 2 (the real and imaginary parts of CSI), and 210 represents the number of samples. The data can be collected by [Picoscenes](https://ps.zpj.io/). The `PicoScenes-PDK-modified` folder is a simplified version of the plugin for Linux kernel version 5.15.0-60, available for user testing. We will upload the new version of PicoScenes for Linux kernel version 5.15.0-78 at a later time.
 
 Now you're ready to implement UWB-Fi!
