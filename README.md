@@ -19,6 +19,8 @@ UWB-Fi is the first Wi-Fi system to achieve physical UWB sensing using only disc
 
 To begin using UWB-Fi and implement the system, follow these steps:
 
+0. **Fast Channel Hopping Scheme**: Unzip *PicoScenes-PDK-modified.zip* and follow the instructions in [this link](https://ps.zpj.io/plugin.html) to install it, enabling the collection of discrete channel samples. You can also use our dataset to test this demo.
+
 1. **Clone the Repository**: Start by cloning this repository to your local machine using the following command:
 
    ```bash
