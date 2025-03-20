@@ -1,4 +1,4 @@
-%% generate the MUSCI spectrum
+%% Compute the 2D MUSIC spectrum (ToF-AoA spectrum).
 function samples = music_spectrum(CSI,WLAN_paras,X,Y)
     signal_space = WLAN_paras.num_path;
     row = floor(WLAN_paras.num_subcarrier/2) * 2;
