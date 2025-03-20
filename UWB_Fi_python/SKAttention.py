@@ -34,22 +34,22 @@ class SKAttention(nn.Module):
         ### split
         for conv in self.convs:
             conv_outs.append(conv(x))
-        feats=torch.stack(conv_outs,0)#k,bs,channel,h,w
+        feats=torch.stack(conv_outs,0) # k,bs,channel,h,w
 
         ### fuse
-        U=sum(conv_outs) #bs,c,h,w
+        U=sum(conv_outs) # bs,c,h,w
 
         ### reduction channel
-        S=U.mean(-1).mean(-1) #bs,c
+        S=U.mean(-1).mean(-1) # bs,c
         Z=self.fc(S) #bs,d
 
         ### calculate attention weight
         weights=[]
         for fc in self.fcs:
             weight=fc(Z)
-            weights.append(weight.view(bs,c,1,1)) #bs,channel
-        attention_weughts=torch.stack(weights,0)#k,bs,channel,1,1
-        attention_weughts=self.softmax(attention_weughts)#k,bs,channel,1,1
+            weights.append(weight.view(bs,c,1,1))         # bs,channel
+        attention_weughts=torch.stack(weights,0)          # k,bs,channel,1,1
+        attention_weughts=self.softmax(attention_weughts) # k,bs,channel,1,1
 
         ### fuse
         V=(attention_weughts*feats).sum(0)
