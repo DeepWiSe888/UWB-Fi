@@ -28,7 +28,7 @@ args.train_dir = args.run_dir + "/pre_result"
 args.pred_dir = args.train_dir + "/predictions"
 
 
-model = torch.load('/home/lixin/UWBFi/UWB-Fi_demo/experiments/deterministic/checkpoints/model_epoch100.pth')
+model = torch.load('/home/lixin/UWBFi/UWB-Fi_demo/experiments/deterministic/checkpoints/model_epoch100.pth')   # !!! Change your own path !!!
 
 # load data! change the path
 test_data_dir = '/home/lixin/UWBFi/UWB-Fi_demo/data/save_path/testData.mat'
