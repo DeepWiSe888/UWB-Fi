@@ -1,4 +1,4 @@
-%% 验证正确率
+%% Verify accuracy
 function path = valData(path_info_outputL)
 LOS = [90,2.3349e-08];
 theta_range = [20,160];
