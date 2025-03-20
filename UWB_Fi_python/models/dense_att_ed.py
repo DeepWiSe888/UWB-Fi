@@ -13,16 +13,16 @@ from SKAttention import SKAttention
 class _DenseLayer(nn.Sequential):
     def __init__(self, in_features, growth_rate, drop_rate=0., bn_size=8,
                  bottleneck=False):
-        super(_DenseLayer, self).__init__()   #小尺寸的卷积层，为bn_size*growth_rate这个会变得非常大，可以考虑直接吧growth rate设置的大一些
+        super(_DenseLayer, self).__init__()   # Convolutional layer
         if bottleneck and in_features > bn_size * growth_rate:
-            self.add_module('norm1', nn.BatchNorm2d(in_features))   # BN层
+            self.add_module('norm1', nn.BatchNorm2d(in_features))   # BN layer
             self.add_module('relu1', nn.ReLU(inplace=True))         # ReLu
             self.add_module('conv1', nn.Conv2d(in_features, bn_size *
-                            growth_rate, kernel_size=1, stride=1, bias=False,dilation=1)) #1*1的卷积核，步长为1，但是输出通道增加了
+                            growth_rate, kernel_size=1, stride=1, bias=False,dilation=1))  # Increase the number of output channels.
             self.add_module('norm2', nn.BatchNorm2d(bn_size * growth_rate))
             self.add_module('relu2', nn.ReLU(inplace=True))
             self.add_module('conv2', nn.Conv2d(bn_size * growth_rate, growth_rate,
-                            kernel_size=3, stride=1, padding=1, bias=False,dilation=1))   # 步长为3，padding1，尺寸一直不变
+                            kernel_size=3, stride=1, padding=1, bias=False,dilation=1))   # Map size remains unchanged.
             # Attention
             # self.add_module('Attention_SE', SEAttention(channel=growth_rate,reduction=1))
             # self.add_module('Attention_CBAM', CBAM_Module(growth_rate,1))
@@ -38,7 +38,7 @@ class _DenseLayer(nn.Sequential):
             self.add_module('Attention_SK', SKAttention(channel=growth_rate,reduction=1))
             
         if drop_rate > 0:
-            self.add_module('dropout', nn.Dropout2d(p=drop_rate))  # 最后加一个dropout层
+            self.add_module('dropout', nn.Dropout2d(p=drop_rate))  # Dropout
         
     def forward(self, x):
         y = super(_DenseLayer, self).forward(x)
@@ -53,17 +53,17 @@ class _AdjLayer(nn.Sequential):
                             kernel_size=kernel_size, stride=stride, 
                             padding=padding, bias=False))
         if drop_rate > 0:
-            self.add_module('dropout', nn.Dropout2d(p=drop_rate))  # 最后加一个dropout层
+            self.add_module('dropout', nn.Dropout2d(p=drop_rate))  # Dropout
         
     def forward(self, x):
         y = super(_AdjLayer, self).forward(x)
         return y
 
-class _DenseBlock(nn.Sequential):      # Block 块
+class _DenseBlock(nn.Sequential):      # Block built on densely connected convolutional layers
     def __init__(self, num_layers, in_features, growth_rate, drop_rate,
                  bn_size=4, bottleneck=False):
         super(_DenseBlock, self).__init__()
-        for i in range(num_layers):   # 多个block，输出的通道就会不断变大--这里输入和输出对不上？
+        for i in range(num_layers):   # Multiple blocks
             layer = _DenseLayer(in_features + i * growth_rate, growth_rate,
                                 drop_rate=drop_rate, bn_size=bn_size,
                                 bottleneck=bottleneck)
@@ -87,12 +87,12 @@ class _Transition(nn.Sequential):
                 self.add_module('norm2', nn.BatchNorm2d(out_features))
                 self.add_module('relu2', nn.ReLU(inplace=True))
                 self.add_module('conv2', nn.Conv2d(out_features, out_features,
-                    kernel_size=3, stride=2, padding=1, bias=False,dilation=1))   # 特征图的尺寸也变小了
+                    kernel_size=3, stride=2, padding=1, bias=False,dilation=1))   # Size of the feature map has decreased
                 if drop_rate > 0:
                     self.add_module('dropout2', nn.Dropout2d(p=drop_rate))
             else:
                 self.add_module('conv1', nn.Conv2d(in_features, out_features,
-                    kernel_size=3, stride=2, padding=1, bias=False,dilation=1))   # 特征图变小-编码过程
+                    kernel_size=3, stride=2, padding=1, bias=False,dilation=1))   # Encoding process
                 if drop_rate > 0:
                     self.add_module('dropout1', nn.Dropout2d(p=drop_rate))
         else:
@@ -161,7 +161,7 @@ class DenseED(nn.Module):
         if len(blocks) > 1 and len(blocks) % 2 == 0:
             raise ValueError('length of blocks must be an odd number, but got {}'
                             .format(len(blocks)))
-        # blocks是否对称？里面的数是有多少层
+        # Multiple blocks
         enc_block_layers = blocks[: len(blocks) // 2]
         dec_block_layers = blocks[len(blocks) // 2:]
 
