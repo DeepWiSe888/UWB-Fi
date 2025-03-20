@@ -1,4 +1,4 @@
-%% compute xy
+%% Translate AoA and ToF into x and y coordinates.
 function [x,y]=com_xy(AOA,TOF,xr)
     dt = TOF * 299792458;  % light speed
     theta = AOA/180*pi; 
