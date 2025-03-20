@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 from torch.utils.data import DataLoader, TensorDataset
 
-
+# Load *.mat files.
 def load_data(data_dir, batch_size,shuffle):
 
 
@@ -24,7 +24,7 @@ def load_data(data_dir, batch_size,shuffle):
     dataset = TensorDataset(torch.tensor(x_data), torch.tensor(y_data))
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, **kwargs)
 
-    # simple statistics of output data 输出一个简单的数据统计值
+    # simple statistics of output data
     y_data_mean = np.mean(y_data, 0)
     y_data_var = np.sum((y_data - y_data_mean) ** 2)
     stats = {}
