@@ -46,6 +46,7 @@ for i = 1:size(MUSIC_spectrum,1)
     % while the second line indicates the ToF.
     res = [res;[path_info_outputL',path_info_output']];
     path(i,:) = valData(path_info_outputL);
+    downstream_data(:,:,i) = downstream(input_data,path_info_output(1,:),tau,theta);  % extract data for downstream task
 end
 % This is the sbuject AoA and ToF
 subject = path(:,3:4);
