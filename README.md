@@ -14,6 +14,7 @@ Welcome to UWB-Fi! This repository contains the code and resources to implement 
 
 UWB-Fi is the first Wi-Fi system to achieve physical UWB sensing using only discrete and irregular channel samples across nearly 5GHz bandwidth.
 
+<font size=10>If users have any questions, they are welcome to contact us through any available channel.</font>
 
 ## Getting Started
 
