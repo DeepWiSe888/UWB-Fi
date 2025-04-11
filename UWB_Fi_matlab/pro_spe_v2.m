@@ -1,3 +1,4 @@
+% Processing the MUSIC spectrum v2
 function MUSIC_spectrum = pro_spe_v2(MUSIC_spectrum,path_info,theta,tau,near,p)
     for i = 1:size(path_info,1)
         [~,ind_theta]=min(abs(path_info(i,1) - theta));
