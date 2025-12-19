@@ -1,6 +1,7 @@
 # UWB-Fi: Pushing Wi-Fi towards Ultra-wideband for Fine-Granularity Sensing
 
-Welcome to UWB-Fi! This repository contains the code and resources to implement UWB-Fi.
+Welcome to UWB-Fi! This repository contains the code and resources to implement UWB-Fi.  
+Related papers: [ACM version](https://dl.acm.org/doi/10.1145/3643832.3661889) and [IEEE version](https://ieeexplore.ieee.org/abstract/document/11059930)
 
 ## Table of Contents
 
